@@ -21,20 +21,24 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      # Paso para listar el contenido del directorio WoofTalkv1
-      - name: List files in WoofTalkv1 directory
-        run: ls -la WoofTalkv1  # Verifica que el pom.xml esté aquí
+      # List files in the repository to verify file structure
+      - name: List files in repository
+        run: ls -la
 
-      # Asegurarse de ejecutar Maven desde el directorio correcto
+      # List files in WoofTalkv1 directory to confirm pom.xml exists
+      - name: List files in WoofTalkv1 directory
+        run: ls -la WoofTalkv1
+
+      # Build with Maven in the correct directory
       - name: Build with Maven
         run: mvn clean install
-        working-directory: WoofTalkv1  # Directorio correcto donde está el pom.xml
+        working-directory: WoofTalkv1  # Confirming Maven works in the correct directory
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: 'WoofTalkv1/target/*.jar'  # Asegúrate de que apunta al artefacto correcto
+          path: 'WoofTalkv1/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,17 +47,4 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
       
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: java-app
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'WoofTalk'
-          slot-name: 'Production'
-          package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FFC1F93D7ACD4B99A4346D5DB781E0C9 }}
