@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy JAR app to Azure Web App - WoofTalk
 
 on:
@@ -10,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # This is required for actions/checkout
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -21,24 +24,14 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      # List files in the repository to verify file structure
-      - name: List files in repository
-        run: ls -la
-
-      # List files in WoofTalkv1 directory to confirm pom.xml exists
-      - name: List files in WoofTalkv1 directory
-        run: ls -la WoofTalkv1
-
-      # Build with Maven in the correct directory
       - name: Build with Maven
         run: mvn clean install
-        working-directory: WoofTalkv1  # Confirming Maven works in the correct directory
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: 'WoofTalkv1/target/*.jar'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,4 +40,17 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
       
-
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+      
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'WoofTalk'
+          slot-name: 'Production'
+          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FFC1F93D7ACD4B99A4346D5DB781E0C9 }}
