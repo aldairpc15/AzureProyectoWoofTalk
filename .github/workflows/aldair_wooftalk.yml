@@ -24,14 +24,23 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
+  # List files in the repository to verify file structure
+      - name: List files in repository
+        run: ls -la
+
+      # List files in WoofTalkv1 directory to confirm pom.xml exists
+      - name: List files in WoofTalkv1 directory
+        run: ls -la WoofTalkv1
+
+      # Build with Maven and specify pom.xml location
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn -f WoofTalkv1/pom.xml clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: 'WoofTalkv1/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
