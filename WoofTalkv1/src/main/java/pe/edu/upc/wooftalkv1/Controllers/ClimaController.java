@@ -57,3 +57,4 @@ public class ClimaController {
         cS.delete(id);
     }
 }
+

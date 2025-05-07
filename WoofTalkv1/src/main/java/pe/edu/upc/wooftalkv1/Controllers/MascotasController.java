@@ -4,8 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.upc.wooftalkv1.DTOS.MascotasDTO;
-import pe.edu.upc.wooftalkv1.DTOS.MascotasporDuenoDTO;
+import pe.edu.upc.wooftalkv1.DTOS.*;
 import pe.edu.upc.wooftalkv1.entities.Mascotas;
 import pe.edu.upc.wooftalkv1.servicesInterfaces.IMascotasServices;
 
@@ -58,7 +57,7 @@ public class MascotasController {
         mS.delete(id);
     }
 
-    @GetMapping("/mascotasconedadmasde10")
+        @GetMapping("/mascotasconedadmasde10")
     public List<MascotasDTO> edadsmasde10(){
         return mS.Mascotasconedadmasde10().stream().map(x->{
             ModelMapper mmm=new ModelMapper();
@@ -66,8 +65,28 @@ public class MascotasController {
         }).collect(Collectors.toList());
     }
 
-    @GetMapping("/mascotasporDueno")
+        @GetMapping("/mascotasporDueno")
     public List<MascotasporDuenoDTO> mascotasporDueno() {
         return mS.MascotasporDueno();
     }
+
+    @GetMapping("/razasdemascotas")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    public List<RazaMascotaDTO> mascotasPorRaza() {
+        return mS.mascotasPorRaza().stream().map(x-> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x,RazaMascotaDTO.class);
+        }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/mascotasPorTamaño")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    public List<BuscarMascotaTamanioDTO> listarMascotasPorTamanio(@RequestParam String tamanio){
+        return mS.buscarPorTamanio(tamanio).stream().map(x -> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x,BuscarMascotaTamanioDTO.class);
+        }).collect(Collectors.toList());
+    }
+
 }
+

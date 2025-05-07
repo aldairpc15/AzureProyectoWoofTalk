@@ -15,4 +15,6 @@ public interface IMascotasServices {
     public void delete(int id);
     public List<Mascotas> Mascotasconedadmasde10();
     List<MascotasporDuenoDTO> MascotasporDueno();
+    public List<Mascotas> mascotasPorRaza();
+    public List<Mascotas> buscarPorTamanio(String tamanio);
 }
