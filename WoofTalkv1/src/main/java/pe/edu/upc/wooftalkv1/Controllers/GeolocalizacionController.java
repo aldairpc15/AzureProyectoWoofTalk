@@ -18,7 +18,7 @@ public class GeolocalizacionController {
     private IGeolocalizacionServices gS;
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     private List<GeolocalizacionDTO> lista() {
         return gS.list().stream().map(y -> {
             ModelMapper m = new ModelMapper();
@@ -27,10 +27,32 @@ public class GeolocalizacionController {
     }
 
     @PostMapping("/registrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     private void insert(@RequestBody GeolocalizacionDTO geolocalizacionDTO) {
         ModelMapper m = new ModelMapper();
         Geolocalizacion geolocalizacion = m.map(geolocalizacionDTO, Geolocalizacion.class);
         gS.insert(geolocalizacion);
+    }
+
+    @PutMapping("/actualizar")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
+    public void modificar(@RequestBody GeolocalizacionDTO dto) {
+        ModelMapper m = new ModelMapper();
+        Geolocalizacion g = m.map(dto , Geolocalizacion.class);
+        gS.update(g);
+    }
+
+    @GetMapping("/buscarporid/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
+    public GeolocalizacionDTO listarId(@PathVariable("id") int id){
+        ModelMapper m = new ModelMapper();
+        GeolocalizacionDTO dto=m.map(gS.ListarId(id),GeolocalizacionDTO.class);
+        return dto;
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
+    public void eliminar(@PathVariable("id") int id) {
+        gS.delete(id);
     }
 }

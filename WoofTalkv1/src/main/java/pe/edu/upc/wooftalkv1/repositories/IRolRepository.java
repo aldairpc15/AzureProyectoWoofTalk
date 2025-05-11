@@ -8,7 +8,7 @@ import pe.edu.upc.wooftalkv1.entities.Rol;
 import java.util.List;
 
 @Repository
-public interface IRolRepository extends JpaRepository<Rol, Integer> {
+public interface IRolRepository extends JpaRepository<Rol, Long> {
     @Query(value = " SELECT COUNT(*) \n" +
             " FROM usuario\n" +
             " WHERE rol_id = 2;",nativeQuery = true)

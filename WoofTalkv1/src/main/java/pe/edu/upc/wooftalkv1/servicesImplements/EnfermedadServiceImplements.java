@@ -13,7 +13,6 @@ public class EnfermedadServiceImplements implements IEnfermedadServices {
     @Autowired
     private IEnfermedadRepository eR;
 
-
     @Override
     public List<Enfermedad> list() {
         return eR.findAll  ();
@@ -28,6 +27,9 @@ public class EnfermedadServiceImplements implements IEnfermedadServices {
     public void update(Enfermedad e) {
 eR.save(e);
     }
+
+    @Override
+    public Enfermedad ListarId(int id) {return eR.findById(id).orElse(new Enfermedad());}
 
     @Override
     public void delete(int id) {

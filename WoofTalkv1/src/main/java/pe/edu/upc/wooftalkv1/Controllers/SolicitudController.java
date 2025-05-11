@@ -20,7 +20,7 @@ public class SolicitudController {
 
     //Listar Solicitud
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<SolicitudDTO> obtenerSolicitud(){
 
         return iSolicitudServices.listar().stream().map(x->{
@@ -31,7 +31,7 @@ public class SolicitudController {
 
     //Registrar Solicitud
     @PostMapping("/registrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE')")
     public void registrar(@RequestBody SolicitudDTO solicitudDTO) {
         ModelMapper m = new ModelMapper();
         Solicitud solicitud = m.map(solicitudDTO, Solicitud.class);
@@ -40,7 +40,7 @@ public class SolicitudController {
 
     //Listar por Id Solicitud
     @GetMapping("/buscarporid/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public SolicitudDTO listarId(@PathVariable("id") int id){
         ModelMapper m = new ModelMapper();
         SolicitudDTO solicitudDTO=m.map(iSolicitudServices.listarId(id),SolicitudDTO.class);
@@ -49,7 +49,7 @@ public class SolicitudController {
 
     //Actualizar Solicitud
     @PutMapping("/actualizar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE')")
     public void actualizar(@RequestBody SolicitudDTO solicitudDTO){
         ModelMapper m=new ModelMapper();
         Solicitud solicitud=m.map(solicitudDTO,Solicitud.class);
@@ -58,7 +58,7 @@ public class SolicitudController {
 
     //Eliminar Solicitud
     @DeleteMapping("/eliminar/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE')")
     public void eliminar(@PathVariable("id") int id){
         iSolicitudServices.eliminar(id);
     }

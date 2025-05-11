@@ -25,10 +25,9 @@ public class CalificacionServiceImplements implements ICalificacionServices {
     }
 
     @Override
-    public List<Calificacion> find(int id) {
-        return List.of();
+    public Calificacion find(int id) {
+        return cR.findById(id).orElse(new Calificacion());
     }
-
 
     @Override
     public void actualizar(Calificacion calificacion){

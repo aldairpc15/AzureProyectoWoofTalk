@@ -5,7 +5,7 @@ import pe.edu.upc.wooftalkv1.entities.Rol;
 
 public class UsuarioDTO {
 
-    private int id;
+    private Long id;
 
     private String username;
 
@@ -23,11 +23,11 @@ public class UsuarioDTO {
 
     private Calificacion calificacion;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -19,7 +19,7 @@ public class ClimaController {
     private IClimaServices cS;
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<Clima> listar() {
         return cS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -28,7 +28,7 @@ public class ClimaController {
     }
 
     @PostMapping("/registrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void agregar(@RequestBody ClimaDTO climaDTO){
         ModelMapper m = new ModelMapper();
         Clima c = m.map(climaDTO,Clima.class);
@@ -36,7 +36,7 @@ public class ClimaController {
     }
 
     @PutMapping("/actualizar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void modificar(@RequestBody ClimaDTO climaDTO){
         ModelMapper m = new ModelMapper();
         Clima c = m.map(climaDTO,Clima.class);
@@ -44,7 +44,7 @@ public class ClimaController {
     }
 
     @GetMapping("/buscarporid/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public ClimaDTO listarId(@PathVariable("id") int id){
         ModelMapper m = new ModelMapper();
         ClimaDTO climaDTO=m.map(cS.listarId(id),ClimaDTO.class);
@@ -52,7 +52,7 @@ public class ClimaController {
     }
 
     @DeleteMapping("/eliminar/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void eliminar(@PathVariable("id") int id){
         cS.delete(id);
     }

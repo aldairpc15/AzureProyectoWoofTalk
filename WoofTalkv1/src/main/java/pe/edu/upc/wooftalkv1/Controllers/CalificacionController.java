@@ -20,7 +20,7 @@ public class CalificacionController {
 
     //Listar Calificacion
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<CalificacionDTO> obtenerCalificaciones(){
 
         return icalificacionServices.listar().stream().map(x->{
@@ -31,7 +31,7 @@ public class CalificacionController {
 
     //Registrar Calificacion
     @PostMapping("/registrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE', 'PASEADOR')")
     public void registrar(@RequestBody CalificacionDTO calificacionDTO) {
         ModelMapper m = new ModelMapper();
         Calificacion calificacion = m.map(calificacionDTO, Calificacion.class);
@@ -40,7 +40,7 @@ public class CalificacionController {
 
     //Listar por Id Calificacion
     @GetMapping("/buscarporid/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public CalificacionDTO listarId(@PathVariable("id") int id){
         ModelMapper m = new ModelMapper();
         CalificacionDTO dto=m.map(icalificacionServices.find(id),CalificacionDTO.class);
@@ -49,7 +49,7 @@ public class CalificacionController {
 
     //Actualizar Calificacion
     @PutMapping("/actualizar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE', 'PASEADOR')")
     public void actualizar(@RequestBody CalificacionDTO calificacionDTO){
         ModelMapper m=new ModelMapper();
         Calificacion calificacion =m.map(calificacionDTO,Calificacion.class);
@@ -58,7 +58,7 @@ public class CalificacionController {
 
     //Eliminar Calificacion
     @DeleteMapping("/eliminar/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE', 'PASEADOR')")
     public void eliminar(@PathVariable("id") int id){
         icalificacionServices.eliminar(id);
     }

@@ -16,8 +16,8 @@ public class Solicitud {
     private LocalDate fecha;
 
     @ManyToOne
-    @JoinColumn(name = "Id_usuario")
-    private Usuario usuario;
+    @JoinColumn(name = "Id_user")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "Id_metodopago")
@@ -26,10 +26,10 @@ public class Solicitud {
     public Solicitud() {
     }
 
-    public Solicitud(int id, LocalDate fecha, Usuario usuario, MetodoPago metodoPago) {
+    public Solicitud(int id, LocalDate fecha, User user, MetodoPago metodoPago) {
         this.id = id;
         this.fecha = fecha;
-        this.usuario = usuario;
+        this.user = user;
         this.metodoPago = metodoPago;
     }
 
@@ -49,12 +49,12 @@ public class Solicitud {
         this.fecha = fecha;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public MetodoPago getMetodoPago() {

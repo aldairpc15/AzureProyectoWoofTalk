@@ -19,7 +19,7 @@ public class MascotasController {
     private IMascotasServices mS;
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'DESARROLLADOR')")
     public List<MascotasDTO> listar(){
         return mS.list().stream().map( x->{
             ModelMapper m = new ModelMapper();
@@ -28,7 +28,7 @@ public class MascotasController {
     }
 
     @PostMapping("/registrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'DESARROLLADOR', 'CLIENTE')")
     public void agregar(@RequestBody MascotasDTO mascotasDTO){
         ModelMapper m = new ModelMapper();
         Mascotas ma = m.map(mascotasDTO,Mascotas.class);
@@ -36,7 +36,7 @@ public class MascotasController {
     }
 
     @PutMapping("/actualizar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'DESARROLLADOR', 'CLIENTE')")
     public void modificar(@RequestBody MascotasDTO mascotasDTO){
         ModelMapper m = new ModelMapper();
         Mascotas ma = m.map(mascotasDTO,Mascotas.class);
@@ -44,7 +44,7 @@ public class MascotasController {
     }
 
     @GetMapping("/buscarporid/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'DESARROLLADOR')")
     public MascotasDTO listarId(@PathVariable("id") int id) {
         ModelMapper m = new ModelMapper();
         MascotasDTO mascotasDTO = m.map(mS.listarId(id), MascotasDTO.class);
@@ -52,7 +52,7 @@ public class MascotasController {
     }
 
     @DeleteMapping("/eliminar/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE')")
     public void eliminar(@PathVariable("id") int id){
         mS.delete(id);
     }

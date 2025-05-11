@@ -20,7 +20,7 @@ public class RecomendacionController {
 
     //Listar Recomendacion
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<RecomendacionDTO> obtenerRecomendacion(){
 
         return recomendacionServices.listar().stream().map(x->{
@@ -31,7 +31,7 @@ public class RecomendacionController {
 
     //Registrar Recomendacion
     @PostMapping("/registrar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'PASEADOR')")
     public void registrar(@RequestBody RecomendacionDTO recomendacionDTO) {
         ModelMapper m = new ModelMapper();
         Recomendacion recomendacion = m.map(recomendacionDTO, Recomendacion.class);
@@ -40,7 +40,7 @@ public class RecomendacionController {
 
     //Listar por Id Recomendacion
     @GetMapping("/buscarporid/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public RecomendacionDTO listarId(@PathVariable("id") int id){
         ModelMapper m = new ModelMapper();
         RecomendacionDTO recomendacionDTO=m.map(recomendacionServices.listarId(id),RecomendacionDTO.class);
@@ -49,7 +49,7 @@ public class RecomendacionController {
 
     //Actualizar Recomendacion
     @PutMapping("/actualizar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'PASEADOR')")
     public void actualizar(@RequestBody RecomendacionDTO recomendacionDTO){
         ModelMapper m=new ModelMapper();
         Recomendacion recomendacion=m.map(recomendacionDTO,Recomendacion.class);
@@ -58,7 +58,7 @@ public class RecomendacionController {
 
     //Eliminar Recomendacion
     @DeleteMapping("/eliminar/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'PASEADOR')")
     public void eliminar(@PathVariable("id") int id){
         recomendacionServices.eliminar(id);
     }

@@ -3,6 +3,7 @@ package pe.edu.upc.wooftalkv1.Controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.wooftalkv1.DTOS.CantidadRolUsuarioDTO;
 import pe.edu.upc.wooftalkv1.DTOS.RolDTO;
@@ -20,15 +21,16 @@ public class RolController {
     private IRolServices rI;
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<RolDTO> listar() {
         return rI.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
             return m.map(x, RolDTO.class);
         }).collect(Collectors.toList());
-
     }
 
     @PostMapping("/agregar")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void insertar(@RequestBody RolDTO rol) {
 
         ModelMapper m = new ModelMapper();
@@ -36,14 +38,25 @@ public class RolController {
         rI.insert(r);
     }
 
-    @PutMapping
+    @PutMapping("/actualizar")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void modificar(@RequestBody RolDTO dto) {
         ModelMapper m = new ModelMapper();
         Rol a = m.map(dto, Rol.class);
         rI.update(a);
     }
+
+    @GetMapping("/buscarporid/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
+    public RolDTO listarId(@PathVariable("id") Long id){
+        ModelMapper m = new ModelMapper();
+        RolDTO dto=m.map(rI.listarId(id),RolDTO.class);
+        return dto;
+    }
+
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable("id") int id) {
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
+    public void eliminar(@PathVariable("id") Long id) {
         rI.delete(id);
     }
 

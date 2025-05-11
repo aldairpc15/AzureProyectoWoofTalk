@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.wooftalkv1.entities.Rol;
-import pe.edu.upc.wooftalkv1.entities.Usuario;
-import pe.edu.upc.wooftalkv1.repositories.IUsuarioRepository;
+import pe.edu.upc.wooftalkv1.entities.User;
+import pe.edu.upc.wooftalkv1.repositories.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,12 @@ import java.util.List;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
-    private IUsuarioRepository repo;
+    private IUserRepository repo;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario user = repo.findOneByUsername(username);
+        User user = repo.findOneByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User not exists", username));

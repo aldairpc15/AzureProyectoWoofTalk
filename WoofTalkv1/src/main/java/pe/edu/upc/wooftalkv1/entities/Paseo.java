@@ -31,20 +31,20 @@ public class Paseo {
     private Geolocalizacion geolocalizacion;
 
     @ManyToOne
-    @JoinColumn(name = "Id_Usuario")
-    private  Usuario usuario;
+    @JoinColumn(name = "Id_User")
+    private  User user;
 
     public Paseo() {
     }
 
-    public Paseo(int id, String descripcion, LocalDate fecha_inicio, LocalDate fecha_fin, Mascotas mascotas, Geolocalizacion geolocalizacion, Usuario usuario) {
+    public Paseo(int id, String descripcion, LocalDate fecha_inicio, LocalDate fecha_fin, Mascotas mascotas, Geolocalizacion geolocalizacion, User user) {
         this.id = id;
         this.descripcion = descripcion;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
         this.mascotas = mascotas;
         this.geolocalizacion = geolocalizacion;
-        this.usuario = usuario;
+        this.user = user;
     }
 
     public int getId() {
@@ -95,11 +95,11 @@ public class Paseo {
         this.geolocalizacion = geolocalizacion;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

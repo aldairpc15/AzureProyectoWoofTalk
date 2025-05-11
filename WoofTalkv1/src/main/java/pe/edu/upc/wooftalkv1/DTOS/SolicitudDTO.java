@@ -1,7 +1,7 @@
 package pe.edu.upc.wooftalkv1.DTOS;
 
 import pe.edu.upc.wooftalkv1.entities.MetodoPago;
-import pe.edu.upc.wooftalkv1.entities.Usuario;
+import pe.edu.upc.wooftalkv1.entities.User;
 
 import java.time.LocalDate;
 
@@ -11,7 +11,7 @@ public class SolicitudDTO {
 
     private LocalDate fecha;
 
-    private Usuario usuario;
+    private User user;
 
     private MetodoPago metodoPago;
 
@@ -31,12 +31,12 @@ public class SolicitudDTO {
         this.fecha = fecha;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public MetodoPago getMetodoPago() {

@@ -19,7 +19,7 @@ public class PaseoController {
     private IPaseoServices pS;
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<PaseoDTO> listar() {
         return pS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -28,7 +28,7 @@ public class PaseoController {
     }
 
     @PostMapping("/agregar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE', 'PASEADOR')")
     public void agregar(@RequestBody PaseoDTO paseoDTO){
         ModelMapper m = new ModelMapper();
         Paseo p = m.map(paseoDTO,Paseo.class);
@@ -36,7 +36,7 @@ public class PaseoController {
     }
 
     @PutMapping("/actualizar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE', 'PASEADOR')")
     public void modificar(@RequestBody PaseoDTO paseoDTO){
         ModelMapper m = new ModelMapper();
         Paseo p = m.map(paseoDTO,Paseo.class);
@@ -44,7 +44,7 @@ public class PaseoController {
     }
 
     @GetMapping("/buscarporid/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public PaseoDTO listarId(@PathVariable("id") int id) {
         ModelMapper m = new ModelMapper();
         PaseoDTO paseoDTO = m.map(pS.listarId(id), PaseoDTO.class);
@@ -52,13 +52,13 @@ public class PaseoController {
     }
 
     @DeleteMapping("/eliminar/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR', 'CLIENTE', 'PASEADOR')")
     public void eliminar(@PathVariable("id") int id){
         pS.delete(id);
     }
 
     @GetMapping("/buscarporfecha")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<PaseoDTO> buscarFechaInicio(@RequestParam LocalDate fecha) {
         return pS.buscarFecha_inicio(fecha).stream().map(y ->{
             ModelMapper m = new ModelMapper();

@@ -27,20 +27,20 @@ public class Mascotas {
     private String observaciones;
 
     @ManyToOne
-    @JoinColumn(name = "Id_usuario")
-    private Usuario usuario;
+    @JoinColumn(name = "Id_user")
+    private User user;
 
     public Mascotas() {
     }
 
-    public Mascotas(int id, String nombre, String raza, int edad, String tamanio, String observaciones, Usuario usuario) {
+    public Mascotas(int id, String nombre, String raza, int edad, String tamanio, String observaciones, User user) {
         this.id = id;
         this.nombre = nombre;
         this.raza = raza;
         this.edad = edad;
         this.tamanio = tamanio;
         this.observaciones = observaciones;
-        this.usuario = usuario;
+        this.user = user;
     }
 
     public int getId() {
@@ -51,20 +51,20 @@ public class Mascotas {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getRaza() {
         return raza;
     }
 
     public void setRaza(String raza) {
         this.raza = raza;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getEdad() {
@@ -91,11 +91,11 @@ public class Mascotas {
         this.observaciones = observaciones;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

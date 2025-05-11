@@ -4,9 +4,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.wooftalkv1.DTOS.BuscarContratoDTO;
 import pe.edu.upc.wooftalkv1.DTOS.ContratoDTO;
+import pe.edu.upc.wooftalkv1.DTOS.ContratoMontoDTO;
 import pe.edu.upc.wooftalkv1.entities.Contrato;
 import pe.edu.upc.wooftalkv1.entities.Mascotas;
+import pe.edu.upc.wooftalkv1.entities.MetodoPago;
 import pe.edu.upc.wooftalkv1.servicesInterfaces.IContratoServices;
 
 import java.time.LocalDate;
@@ -20,7 +23,7 @@ public class ContratoController {
     private IContratoServices coS;
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public List<ContratoDTO> listar() {
         return coS.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -30,7 +33,7 @@ public class ContratoController {
     }
 
     @PostMapping("/agregar")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void insertar(@RequestBody ContratoDTO contrato) {
 
         ModelMapper m = new ModelMapper();
@@ -38,26 +41,44 @@ public class ContratoController {
         coS.insert(r);
     }
 
-    @PutMapping
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PutMapping("/actualizar")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void modificar(@RequestBody ContratoDTO dto) {
         ModelMapper m = new ModelMapper();
         Contrato r = m.map(dto , Contrato.class);
         coS.update(r);
     }
+
+    @GetMapping("/buscarporid/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
+    public ContratoDTO listarId(@PathVariable("id") int id){
+        ModelMapper m = new ModelMapper();
+        ContratoDTO dto=m.map(coS.find(id),ContratoDTO.class);
+        return dto;
+    }
+
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR', 'DESARROLLADOR')")
     public void eliminar(@PathVariable("id") int id) {
         coS.delete(id);
     }
 
 
-    @GetMapping("/buscarcontratoporidmascotas")
+    @GetMapping("/buscarcontratoporfecha")
     @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
-    public List<ContratoDTO> buscarContratoMascotas(@RequestParam Mascotas mascotas) {
-        return coS.buscarContratoMascotas(mascotas).stream().map(y ->{
+    public List<BuscarContratoDTO> buscarContratoMascotas(@RequestParam LocalDate fecha_inicio) {
+        return coS.buscarContratoPorFecha(fecha_inicio).stream().map(y ->{
             ModelMapper m = new ModelMapper();
-            return m.map(y,ContratoDTO.class);
+            return m.map(y, BuscarContratoDTO.class);
+        }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/buscarcontratopormonto")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRADOR')")
+    public List<ContratoMontoDTO> buscarContratoPorMonto(@RequestParam double monto) {
+        return coS.buscarContratoPorMonto(monto).stream().map(y ->{
+            ModelMapper m = new ModelMapper();
+            return m.map(y, ContratoMontoDTO.class);
         }).collect(Collectors.toList());
     }
 

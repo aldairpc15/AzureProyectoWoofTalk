@@ -2,7 +2,7 @@ package pe.edu.upc.wooftalkv1.DTOS;
 
 import pe.edu.upc.wooftalkv1.entities.Geolocalizacion;
 import pe.edu.upc.wooftalkv1.entities.Mascotas;
-import pe.edu.upc.wooftalkv1.entities.Usuario;
+import pe.edu.upc.wooftalkv1.entities.User;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ public class PaseoDTO {
     private LocalDate fecha_fin;
     private Mascotas mascotas;
     private Geolocalizacion geolocalizacion;
-    private Usuario usuario;
+    private User user;
 
     public int getId() {
         return id;
@@ -39,20 +39,20 @@ public class PaseoDTO {
         this.fecha_inicio = fecha_inicio;
     }
 
-    public LocalDate getFecha_fin() {
-        return fecha_fin;
-    }
-
-    public void setFecha_fin(LocalDate fecha_fin) {
-        this.fecha_fin = fecha_fin;
-    }
-
     public Mascotas getMascotas() {
         return mascotas;
     }
 
     public void setMascotas(Mascotas mascotas) {
         this.mascotas = mascotas;
+    }
+
+    public LocalDate getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(LocalDate fecha_fin) {
+        this.fecha_fin = fecha_fin;
     }
 
     public Geolocalizacion getGeolocalizacion() {
@@ -63,11 +63,11 @@ public class PaseoDTO {
         this.geolocalizacion = geolocalizacion;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
